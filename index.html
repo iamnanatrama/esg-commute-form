@@ -593,8 +593,13 @@ const CONFIG = {
         <span class="error-msg">กรุณาเลือกแผนก</span>
       </div>
       <div class="field">
-        <label>สถานที่ทำงาน / สาขา</label>
-        <input type="text" id="branch" placeholder="เช่น สำนักงานใหญ่, อาคาร A" />
+    <label>สถานที่ทำงาน / สาขา <span class="req">*</span></label>
+    <select id="branch">
+        <option value="">— เลือกสาขา —</option>
+        <option value="มหาชัย">มหาชัย</option>
+        <option value="พระราม 9">พระราม 9</option>
+    </select>
+    <span class="error-msg">กรุณาเลือกสาขา</span>
       </div>
     </div>
   </div>
