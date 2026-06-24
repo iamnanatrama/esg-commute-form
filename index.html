@@ -1017,7 +1017,7 @@ async function submitForm() {
     dept: document.getElementById('dept').value,
     branch: document.getElementById('branch').value.trim(),
     origin: document.getElementById('origin').value.trim(),
-    distance_km: dist,
+    distance_km: dist * 2,
     work_days: selectedDays.join(', '),
     work_days_count: selectedDays.length,
     vehicle: vehicleFinal,
