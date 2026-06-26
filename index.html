@@ -1791,6 +1791,298 @@
       .story-topline strong { font-size: 17px; }
     }
 
+  
+
+    /* =========================================================
+       HERO LEFT REDESIGN ONLY
+       เติมพื้นที่ว่างฝั่งซ้ายให้ดูเป็น Corporate ESG Landing
+       ไม่แตะโลโก้ แบนเนอร์ และ Scope 2 Animation ฝั่งขวา
+       ========================================================= */
+    .hero-card {
+      min-height: 610px;
+      padding: 38px 36px 30px;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(31,143,95,0.10), transparent 28%),
+        radial-gradient(circle at 92% 90%, rgba(95,179,196,0.18), transparent 30%),
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(247,253,250,0.92));
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(31,143,95,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31,143,95,0.035) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(120deg, transparent 0%, black 42%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-card::after {
+      width: 360px;
+      height: 360px;
+      right: -110px;
+      bottom: -120px;
+      background:
+        radial-gradient(circle, rgba(31,143,95,0.14), rgba(95,179,196,0.10) 55%, transparent 72%);
+    }
+
+    .hero-card .eyebrow,
+    .hero-card h1,
+    .hero-card p,
+    .hero-card .hero-actions,
+    .hero-card .hero-insight-panel {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-card h1 {
+      max-width: 620px;
+      font-size: clamp(40px, 4.45vw, 64px);
+      line-height: 1.04;
+      letter-spacing: -0.052em;
+      text-wrap: balance;
+      text-shadow: 0 10px 30px rgba(15, 46, 37, 0.08);
+    }
+
+    .hero-card p {
+      max-width: 610px;
+      font-size: 16.5px;
+      line-height: 1.78;
+    }
+
+    .hero-insight-panel {
+      width: min(100%, 575px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .insight-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(31,143,95,0.18);
+      box-shadow: 0 12px 28px rgba(20,83,59,0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .insight-card.active {
+      background: linear-gradient(135deg, rgba(31,143,95,0.98), rgba(20,107,73,0.96));
+      color: white;
+      box-shadow: 0 18px 34px rgba(31,143,95,0.24);
+    }
+
+    .insight-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 13px;
+      background: rgba(223,243,232,0.95);
+      font-size: 18px;
+    }
+
+    .insight-card.active .insight-icon {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .insight-card strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.1;
+    }
+
+    .insight-card small {
+      display: block;
+      margin-top: 4px;
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .insight-card.active small {
+      color: rgba(255,255,255,0.82);
+    }
+
+    .hero-visual-layer {
+      position: absolute;
+      inset: auto 0 0 auto;
+      width: 360px;
+      height: 330px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-orbit-ring {
+      position: absolute;
+      right: 12px;
+      bottom: 14px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px dashed rgba(31,143,95,0.26);
+      animation: heroOrbitSpin 18s linear infinite;
+    }
+
+    .hero-orbit-ring::before,
+    .hero-orbit-ring::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 18px rgba(31,143,95,0.45);
+    }
+
+    .hero-orbit-ring::before { top: 28px; right: 28px; }
+    .hero-orbit-ring::after { left: 18px; bottom: 62px; background: var(--accent); }
+
+    .hero-leaf-shape {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(31,143,95,0.22), rgba(95,179,196,0.08));
+      border-radius: 90% 12% 90% 12%;
+      transform: rotate(-34deg);
+      filter: drop-shadow(0 18px 24px rgba(20,83,59,0.08));
+    }
+
+    .leaf-one {
+      width: 105px;
+      height: 175px;
+      right: 82px;
+      bottom: 112px;
+      animation: leafFloat 5.5s ease-in-out infinite;
+    }
+
+    .leaf-two {
+      width: 72px;
+      height: 124px;
+      right: 30px;
+      bottom: 154px;
+      opacity: 0.75;
+      animation: leafFloat 6.5s ease-in-out infinite reverse;
+    }
+
+    .floating-dashboard-card {
+      position: absolute;
+      right: 112px;
+      bottom: 42px;
+      width: 150px;
+      height: 112px;
+      padding: 12px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(31,143,95,0.15);
+      box-shadow: 0 20px 45px rgba(20,83,59,0.13);
+      backdrop-filter: blur(10px);
+      animation: cardFloat 5s ease-in-out infinite;
+    }
+
+    .dash-head {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .dash-head span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(31,143,95,0.28);
+    }
+
+    .dash-bars {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+      height: 48px;
+    }
+
+    .dash-bars i {
+      width: 18px;
+      border-radius: 999px 999px 4px 4px;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+      animation: barPulse 2.4s ease-in-out infinite;
+    }
+
+    .dash-bars i:nth-child(2) { animation-delay: .25s; }
+    .dash-bars i:nth-child(3) { animation-delay: .5s; }
+    .dash-bars i:nth-child(4) { animation-delay: .75s; }
+
+    .dash-line {
+      height: 8px;
+      width: 92px;
+      margin-top: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(31,143,95,0.24), rgba(95,179,196,0.18));
+    }
+
+    .floating-score-card {
+      position: absolute;
+      right: 28px;
+      bottom: 74px;
+      width: 92px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(31,143,95,0.14);
+      box-shadow: 0 16px 35px rgba(20,83,59,0.10);
+      text-align: center;
+      animation: cardFloat 5.8s ease-in-out infinite reverse;
+    }
+
+    .floating-score-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .floating-score-card strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--primary-dark);
+      font-size: 20px;
+    }
+
+    @keyframes heroOrbitSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes leafFloat {
+      0%,100% { transform: translateY(0) rotate(-34deg); }
+      50% { transform: translateY(-12px) rotate(-30deg); }
+    }
+
+    @keyframes cardFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes barPulse {
+      0%,100% { transform: scaleY(.78); opacity: .78; }
+      50% { transform: scaleY(1.08); opacity: 1; }
+    }
+
+    @media (max-width: 920px) {
+      .hero-card { min-height: auto; }
+      .hero-visual-layer { opacity: .45; transform: scale(.82); transform-origin: right bottom; }
+      .hero-insight-panel { grid-template-columns: 1fr; max-width: 360px; }
+    }
+
+    @media (max-width: 620px) {
+      .hero-visual-layer { display: none; }
+      .hero-card h1 { font-size: clamp(34px, 12vw, 48px); }
+    }
+
   </style>
 </head>
 
@@ -1848,6 +2140,56 @@
                  ===================================================== -->
             <a class="btn btn-primary" href="commuting.html">เริ่มกรอกข้อมูล ESG →</a>
             <a class="btn btn-secondary" href="dashboard.html">ดู Dashboard 📊</a>
+          </div>
+
+          <!-- =====================================================
+               HERO LEFT UPGRADE: เติมพื้นที่ฝั่งซ้ายให้ดูแน่นและพรีเมียม
+               แก้เฉพาะฝั่งซ้ายของ Hero ไม่กระทบ Logo / Banner / Animation ฝั่งขวา
+               ===================================================== -->
+          <div class="hero-insight-panel" aria-label="ESG quick overview">
+            <div class="insight-card active">
+              <span class="insight-icon">📝</span>
+              <div>
+                <strong>Collect</strong>
+                <small>กรอกข้อมูลง่าย</small>
+              </div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">⚙️</span>
+              <div>
+                <strong>Calculate</strong>
+                <small>คำนวณ CO₂e</small>
+              </div>
+            </div>
+            <div class="insight-card">
+              <span class="insight-icon">📊</span>
+              <div>
+                <strong>Report</strong>
+                <small>สรุปผลผู้บริหาร</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual-layer" aria-hidden="true">
+            <div class="hero-orbit-ring"></div>
+            <div class="hero-leaf-shape leaf-one"></div>
+            <div class="hero-leaf-shape leaf-two"></div>
+            <div class="floating-dashboard-card">
+              <div class="dash-head">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="dash-bars">
+                <i style="height:42%"></i>
+                <i style="height:68%"></i>
+                <i style="height:50%"></i>
+                <i style="height:82%"></i>
+              </div>
+              <div class="dash-line"></div>
+            </div>
+            <div class="floating-score-card">
+              <small>ESG Score</small>
+              <strong>Live</strong>
+            </div>
           </div>
         </div>
 
