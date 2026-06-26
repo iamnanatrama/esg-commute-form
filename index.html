@@ -129,8 +129,8 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 24px;
+      grid-template-columns: 1.0fr 1.0fr;
+      gap: 10px;
       align-items: stretch;
       margin-bottom: 24px;
     }
@@ -919,75 +919,184 @@
 
     .esg-orbit {
       position: relative;
-      min-height: 225px;
+      min-height: 245px;
       border-radius: 24px;
       background:
-        radial-gradient(circle at center, rgba(255,255,255,0.92) 0 18%, transparent 19%),
-        radial-gradient(circle at 25% 22%, rgba(31,143,95,0.16), transparent 28%),
-        radial-gradient(circle at 78% 30%, rgba(95,179,196,0.18), transparent 28%),
-        linear-gradient(145deg, #f7fffb, #eaf7f0);
-      border: 1px solid rgba(31,143,95,0.15);
+        radial-gradient(circle at 18% 18%, rgba(255, 215, 96, 0.18), transparent 24%),
+        radial-gradient(circle at 88% 20%, rgba(95,179,196,0.16), transparent 30%),
+        linear-gradient(145deg, #f9fffb, #eaf7f0 68%, #e4f1ff);
+      border: 1px solid rgba(31,143,95,0.16);
       overflow: hidden;
-      display: grid;
-      place-items: center;
-      box-shadow: inset 0 0 45px rgba(31,143,95,0.08);
+      box-shadow: inset 0 0 48px rgba(31,143,95,0.08);
+      padding: 16px;
     }
 
-    .esg-orbit-center {
+    .electric-cycle-title {
       position: relative;
-      z-index: 4;
-      width: 112px;
-      height: 112px;
-      border-radius: 32px;
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .electric-cycle-title strong {
+      font-size: 14px;
+      color: #0b3d2e;
+      letter-spacing: -0.01em;
+    }
+
+    .electric-cycle-title span {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(31,143,95,0.14);
+      color: #146b49;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .electric-cycle-stage {
+      position: absolute;
+      z-index: 6;
+      width: 86px;
+      min-height: 74px;
+      border-radius: 22px;
       display: grid;
       place-items: center;
       text-align: center;
-      background: linear-gradient(135deg, #0f7f55, #33b77d);
-      color: white;
-      box-shadow: 0 20px 45px rgba(20,83,59,0.22);
+      padding: 10px 8px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(31,143,95,0.16);
+      box-shadow: 0 14px 32px rgba(20,83,59,0.10);
+      backdrop-filter: blur(8px);
     }
 
-    .esg-orbit-center strong { font-size: 31px; line-height: 1; }
-    .esg-orbit-center span { font-size: 11px; font-weight: 800; opacity: 0.92; margin-top: -18px; }
-
-    .orbit-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1.5px dashed rgba(20,83,59,0.20);
-      animation: orbitRotate 11s linear infinite;
+    .electric-cycle-stage .stage-icon {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 6px;
     }
-    .ring-one { width: 250px; height: 128px; transform: rotate(-13deg); }
-    .ring-two { width: 300px; height: 155px; transform: rotate(22deg); animation-direction: reverse; animation-duration: 15s; }
 
-    .orbit-item {
+    .electric-cycle-stage b {
+      display: block;
+      font-size: 12px;
+      color: #0b3d2e;
+      line-height: 1.15;
+    }
+
+    .electric-cycle-stage small {
+      display: block;
+      margin-top: 3px;
+      color: #5d746b;
+      font-weight: 800;
+      font-size: 9px;
+      line-height: 1.15;
+    }
+
+    .stage-source { left: 100px; top: 60px; }
+    .stage-grid { left: 50%; top: 10px; transform: translateX(-50%); }
+    .stage-use { right: 100px; top: 60px; }
+    .stage-meter { right: 140px; bottom: 20px; }
+    .stage-insight { left: 140px; bottom: 20px; }
+
+    .electric-cycle-core {
       position: absolute;
-      z-index: 5;
-      width: 50px;
-      height: 50px;
-      border-radius: 18px;
+      z-index: 7;
+      left: 50%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
       display: grid;
       place-items: center;
+      text-align: center;
       color: white;
-      font-weight: 950;
-      box-shadow: 0 14px 32px rgba(20,83,59,0.18);
-      animation: orbitFloat 3s ease-in-out infinite;
+      background: linear-gradient(135deg, #0b7a55, #1f8f5f 52%, #5fb3c4);
+      box-shadow: 0 20px 44px rgba(20,83,59,0.22), 0 0 0 9px rgba(31,143,95,0.08);
+      animation: electricCorePulse 2.6s ease-in-out infinite;
     }
-    .item-e { left: 16%; top: 22%; background: #1f8f5f; }
-    .item-s { right: 15%; top: 25%; background: #5fb3c4; animation-delay: .6s; }
-    .item-g { left: 50%; bottom: 20%; background: #f0a43a; animation-delay: 1.1s; }
 
-    .data-flow {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #1f8f5f;
-      box-shadow: 0 0 18px rgba(31,143,95,0.75);
-      animation: dataFlow 3.2s linear infinite;
+    .electric-cycle-core strong {
+      font-size: 13px;
+      line-height: 1.05;
     }
-    .f1 { left: 15%; top: 55%; }
-    .f2 { left: 75%; top: 52%; animation-delay: 1s; }
-    .f3 { left: 46%; top: 18%; animation-delay: 1.8s; }
+
+    .electric-cycle-core span {
+      display: block;
+      margin-top: 3px;
+      font-size: 9px;
+      font-weight: 900;
+      opacity: .92;
+    }
+
+    .electric-paths {
+      position: absolute;
+      inset: 20px 10px 28px;
+      z-index: 3;
+      width: calc(100% - 20px);
+      height: calc(100% - 48px);
+      overflow: visible;
+    }
+
+    .electric-paths path {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 9 12;
+      animation: electricDash 1.9s linear infinite;
+    }
+
+    .electric-paths .main-line { stroke: rgba(31,143,95,0.48); }
+    .electric-paths .sub-line { stroke: rgba(95,179,196,0.48); animation-duration: 2.35s; }
+    .electric-paths .warn-line { stroke: rgba(240,164,58,0.48); animation-duration: 2.65s; }
+
+    .electric-spark {
+      position: absolute;
+      z-index: 4;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffcc4d;
+      box-shadow: 0 0 18px rgba(255,204,77,0.85), 0 0 28px rgba(31,143,95,0.38);
+      offset-path: path("M 34 112 C 120 50, 220 48, 294 106 C 360 156, 304 210, 198 198 C 96 188, 48 170, 34 112");
+      animation: sparkCycle 5.6s linear infinite;
+    }
+    .spark-two { animation-delay: 1.85s; background: #5fb3c4; box-shadow: 0 0 18px rgba(95,179,196,.85); }
+    .spark-three { animation-delay: 3.7s; background: #1f8f5f; box-shadow: 0 0 18px rgba(31,143,95,.85); }
+
+    .usage-bars {
+      position: absolute;
+      z-index: 7;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: end;
+      gap: 5px;
+      height: 28px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(31,143,95,0.12);
+    }
+
+    .usage-bars i {
+      display: block;
+      width: 5px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #5fb3c4, #1f8f5f);
+      animation: usageBar 1.4s ease-in-out infinite;
+    }
+    .usage-bars i:nth-child(1) { height: 9px; }
+    .usage-bars i:nth-child(2) { height: 18px; animation-delay: .15s; }
+    .usage-bars i:nth-child(3) { height: 12px; animation-delay: .3s; }
+    .usage-bars i:nth-child(4) { height: 22px; animation-delay: .45s; }
+    .usage-bars i:nth-child(5) { height: 15px; animation-delay: .6s; }
 
     .esg-caption {
       position: absolute;
@@ -1188,9 +1297,10 @@
     .vehicle-label.engine { left: 245px; bottom: 170px; }
     .vehicle-label.layer { right: 34px; top: 168px; }
 
-    @keyframes orbitRotate { to { rotate: 360deg; } }
-    @keyframes orbitFloat { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-8px) } }
-    @keyframes dataFlow { 0%{ transform: scale(.6); opacity:.2 } 45%{ opacity:1 } 100%{ transform: translate(80px,-45px) scale(1.6); opacity:0 } }
+    @keyframes electricDash { to { stroke-dashoffset: -42; } }
+    @keyframes sparkCycle { 0% { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+    @keyframes electricCorePulse { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.045); } }
+    @keyframes usageBar { 0%,100% { transform: scaleY(.72); opacity: .72; } 50% { transform: scaleY(1.16); opacity: 1; } }
     @keyframes greenPulse { 0%,100%{ opacity:.66 } 50%{ opacity:1 } }
     @keyframes roadSlide { to { transform: translateX(-108px); } }
     @keyframes vehicleBounce { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-5px) } }
@@ -1284,20 +1394,57 @@
                ESG MICRO ANIMATION ใต้แบนเนอร์
                เพิ่มเพื่อเติมพื้นที่ว่างด้านขวา โดยไม่เปลี่ยนรูปแบนเนอร์
                ===================================================== -->
-          <div class="esg-orbit" aria-label="ESG animated overview">
-            <div class="esg-orbit-center">
-              <strong>ESG</strong>
-              <span>Data → Insight</span>
+          <div class="esg-orbit" aria-label="Electricity usage cycle animation">
+            <div class="electric-cycle-title">
+              <strong>Electricity Usage Cycle</strong>
+              <span>Scope 2 Energy</span>
             </div>
-            <div class="orbit-ring ring-one"></div>
-            <div class="orbit-ring ring-two"></div>
-            <div class="orbit-item item-e">E</div>
-            <div class="orbit-item item-s">S</div>
-            <div class="orbit-item item-g">G</div>
-            <div class="data-flow f1"></div>
-            <div class="data-flow f2"></div>
-            <div class="data-flow f3"></div>
-            <div class="esg-caption">เก็บข้อมูล • วิเคราะห์ • ลด Carbon Footprint</div>
+
+            <svg class="electric-paths" viewBox="0 0 330 210" aria-hidden="true">
+              <path class="main-line" d="M34 112 C120 50 220 48 294 106" />
+              <path class="sub-line" d="M294 106 C360 156 304 210 198 198" />
+              <path class="warn-line" d="M198 198 C96 188 48 170 34 112" />
+              <path class="sub-line" d="M165 52 C190 92 190 132 165 172" />
+            </svg>
+
+            <span class="electric-spark"></span>
+            <span class="electric-spark spark-two"></span>
+            <span class="electric-spark spark-three"></span>
+
+            <div class="electric-cycle-stage stage-source">
+              <span class="stage-icon">⚡</span>
+              <b>ผลิตไฟฟ้า</b>
+              <small>Grid / Energy</small>
+            </div>
+            <div class="electric-cycle-stage stage-grid">
+              <span class="stage-icon">🔌</span>
+              <b>ส่งจ่าย</b>
+              <small>Distribution</small>
+            </div>
+            <div class="electric-cycle-stage stage-use">
+              <span class="stage-icon">🏢</span>
+              <b>ใช้งาน</b>
+              <small>Office Load</small>
+            </div>
+            <div class="electric-cycle-stage stage-meter">
+              <span class="stage-icon">📟</span>
+              <b>มิเตอร์</b>
+              <small>kWh Data</small>
+            </div>
+            <div class="electric-cycle-stage stage-insight">
+              <span class="stage-icon">📊</span>
+              <b>วิเคราะห์</b>
+              <small>CO₂e Report</small>
+            </div>
+
+            <div class="electric-cycle-core">
+              <strong>kWh<br>→ CO₂e</strong>
+              <span>Measure & Reduce</span>
+            </div>
+
+            <div class="usage-bars" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
           </div>
 
           <div class="mini-stats">
