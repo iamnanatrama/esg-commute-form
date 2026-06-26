@@ -500,22 +500,189 @@
     animation: spin 0.7s linear infinite;
   }
 
+
+
+  /* ── Page Actions / Back to Main ── */
+  .page-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .btn-main-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(29,158,117,0.28);
+    background: rgba(255,255,255,0.92);
+    color: #0F6E56;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(15,110,86,0.10);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-main-back:hover {
+    transform: translateY(-2px);
+    background: #F0FDF9;
+    box-shadow: 0 14px 28px rgba(15,110,86,0.14);
+  }
+  .page-action-note {
+    color: #6B7280;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Vehicle CO₂ Simulator Side SVG ── */
+  .vehicle-sim-side {
+    position: fixed;
+    top: 50%;
+    width: 230px;
+    border-radius: 22px;
+    padding: 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(232,248,242,0.92));
+    border: 1px solid rgba(29,158,117,0.20);
+    box-shadow: 0 18px 42px rgba(15,110,86,0.13);
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .vehicle-sim-side.left { left: max(18px, calc((100vw - 1200px) / 2 - 250px)); }
+  .vehicle-sim-side.right { right: max(18px, calc((100vw - 1200px) / 2 - 250px)); }
+  .vehicle-sim-side::before {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(29,158,117,0.10);
+    right: -48px;
+    top: -42px;
+  }
+  .vehicle-sim-side h3 {
+    position: relative;
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: #0F6E56;
+    line-height: 1.25;
+  }
+  .vehicle-sim-side p {
+    position: relative;
+    margin: 0 0 10px;
+    font-size: 11px;
+    color: #6B7280;
+    line-height: 1.45;
+  }
+  .vehicle-sim-svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .sim-road-line { animation: simRoad 1.4s linear infinite; }
+  .sim-wheel { transform-box: fill-box; transform-origin: center; animation: simSpin 1s linear infinite; }
+  .sim-co2 { animation: simCo2Rise 3.2s ease-in-out infinite; opacity: 0; }
+  .sim-co2.c2 { animation-delay: .65s; }
+  .sim-co2.c3 { animation-delay: 1.3s; }
+  .sim-meter { transform-box: fill-box; transform-origin: center; animation: simPulse 1.8s ease-in-out infinite; }
+  .sim-bar.b1 { animation: simBar 1.2s ease-in-out infinite; }
+  .sim-bar.b2 { animation: simBar 1.2s ease-in-out infinite .2s; }
+  .sim-bar.b3 { animation: simBar 1.2s ease-in-out infinite .4s; }
+  @keyframes simRoad { to { stroke-dashoffset: -28; } }
+  @keyframes simSpin { to { transform: rotate(360deg); } }
+  @keyframes simPulse { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.08); opacity: 1; } }
+  @keyframes simBar { 0%,100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
+  @keyframes simCo2Rise {
+    0% { transform: translate(0, 14px) scale(.8); opacity: 0; }
+    25% { opacity: .88; }
+    100% { transform: translate(24px, -44px) scale(1.08); opacity: 0; }
+  }
+
+  @media (max-width: 1240px) {
+    .vehicle-sim-side { display: none; }
+  }
+
   /* ── Responsive ── */
   @media (max-width: 520px) {
     .field-grid { grid-template-columns: 1fr; }
     .fuel-grid { grid-template-columns: 1fr; }
     body { padding: 1rem 0.75rem; }
     .section { padding: 1rem; }
+    .page-action-bar { align-items: stretch; flex-direction: column; }
+    .btn-main-back { justify-content: center; width: 100%; }
+    .page-action-note { text-align: center; }
+    .btn-row { flex-direction: column; }
+    .btn-reset { width: 100%; }
   }
 </style>
 </head>
 <body>
+
+<!-- Vehicle CO₂ Simulator SVG ด้านข้าง — Desktop only, มือถือจะซ่อนอัตโนมัติ -->
+<aside class="vehicle-sim-side left" aria-hidden="true">
+  <h3>Vehicle CO₂ Simulator</h3>
+  <p>ระยะทาง × วันทำงาน × ประเภทยานพาหนะ</p>
+  <svg class="vehicle-sim-svg" viewBox="0 0 220 160" role="img">
+    <defs>
+      <linearGradient id="simGreen" x1="0" x2="1"><stop offset="0" stop-color="#1D9E75"/><stop offset="1" stop-color="#0F6E56"/></linearGradient>
+      <filter id="simGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect x="10" y="104" width="200" height="26" rx="13" fill="#E8F8F2"/>
+    <path class="sim-road-line" d="M22 117 H198" stroke="#0F6E56" stroke-width="3" stroke-linecap="round" stroke-dasharray="14 14" opacity=".5"/>
+    <g transform="translate(40 74)">
+      <path d="M8 30 L22 12 H78 L96 30 H112 C119 30 124 35 124 42 V55 H0 V42 C0 35 3 30 8 30Z" fill="url(#simGreen)"/>
+      <rect x="28" y="18" width="22" height="14" rx="3" fill="#DFF7EE"/>
+      <rect x="56" y="18" width="22" height="14" rx="3" fill="#DFF7EE"/>
+      <circle class="sim-wheel" cx="28" cy="56" r="11" fill="#263238"/><circle class="sim-wheel" cx="94" cy="56" r="11" fill="#263238"/>
+      <circle cx="28" cy="56" r="4" fill="#E8F8F2"/><circle cx="94" cy="56" r="4" fill="#E8F8F2"/>
+    </g>
+    <g filter="url(#simGlow)" fill="#6B7280" font-size="12" font-weight="800">
+      <text class="sim-co2 c1" x="22" y="70">CO₂</text>
+      <text class="sim-co2 c2" x="16" y="84">CO₂</text>
+      <text class="sim-co2 c3" x="30" y="92">CO₂</text>
+    </g>
+    <g transform="translate(145 22)">
+      <circle class="sim-meter" cx="28" cy="28" r="28" fill="#FFFFFF" stroke="#A7D9C8"/>
+      <text x="28" y="25" text-anchor="middle" font-size="10" fill="#0F6E56" font-weight="800">CO₂e</text>
+      <text x="28" y="41" text-anchor="middle" font-size="16" fill="#0F6E56" font-weight="900">↓</text>
+    </g>
+  </svg>
+</aside>
+
+<aside class="vehicle-sim-side right" aria-hidden="true">
+  <h3>Emission Preview</h3>
+  <p>เปรียบเทียบผลปล่อย CO₂ ก่อนบันทึกข้อมูล</p>
+  <svg class="vehicle-sim-svg" viewBox="0 0 220 160" role="img">
+    <defs>
+      <linearGradient id="simYellow" x1="0" x2="1"><stop offset="0" stop-color="#F5C97A"/><stop offset="1" stop-color="#1D9E75"/></linearGradient>
+    </defs>
+    <rect x="18" y="20" width="184" height="120" rx="22" fill="#fff" stroke="#D1FAE5"/>
+    <text x="34" y="44" fill="#0F6E56" font-size="12" font-weight="900">kg CO₂e / year</text>
+    <g transform="translate(38 66)" fill="url(#simYellow)">
+      <rect class="sim-bar b1" x="0" y="34" width="22" height="40" rx="6"/>
+      <rect class="sim-bar b2" x="40" y="14" width="22" height="60" rx="6"/>
+      <rect class="sim-bar b3" x="80" y="0" width="22" height="74" rx="6"/>
+    </g>
+    <path d="M35 112 C70 82, 92 92, 122 66 C145 46, 165 52, 185 34" fill="none" stroke="#0F6E56" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8">
+      <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="185" cy="34" r="8" fill="#F5C97A"><animate attributeName="r" values="6;10;6" dur="1.5s" repeatCount="indefinite"/></circle>
+  </svg>
+</aside>
 
 <!-- ══ CONFIG — แก้ตรงนี้เท่านั้น ══ -->
 <script>
 const CONFIG = {
   // วาง Google Apps Script Web App URL ที่นี่
   SHEET_URL: "https://script.google.com/macros/s/AKfycbzPQsK3A_l8ukHoQgsw_pL7PXXVPEyIyU41g1W-if0U5YurcJK_0W6khcQMkBYaeb2x0g/exec",
+  // กลับไปหน้าหลักหลังบันทึกสำเร็จ — ถ้าอยู่ GitHub Pages โครงสร้างเดียวกันใช้ index.html ได้เลย
+  MAIN_URL: "index.html",
+  RETURN_AFTER_SAVE: true,
+  SUCCESS_REDIRECT_DELAY: 1400,
   ORG_NAME: "บริษัท รามาโปรดั๊กชั่น จำกัด",
   FORM_TITLE: "แบบสำรวจการเดินทางมาทำงาน",
   FORM_DESC: "ข้อมูลนี้จะถูกนำไปใช้คำนวณ Carbon Footprint ขององค์กร (ESG Scope 3 — Category 7)"
@@ -524,6 +691,12 @@ const CONFIG = {
 <!-- ══════════════════════════════════ -->
 
 <div class="page-wrap">
+
+  <!-- Action: กลับหน้าหลัก -->
+  <div class="page-action-bar">
+    <a class="btn-main-back" id="btn-main-back" href="index.html">← กลับไปหน้าหลัก</a>
+    <div class="page-action-note">บันทึกสำเร็จแล้วระบบจะกลับหน้าหลักอัตโนมัติ</div>
+  </div>
 
   <!-- Brand Hero -->
   <div class="brand-hero">
@@ -820,6 +993,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (CONFIG.SHEET_URL && !CONFIG.SHEET_URL.includes('YOUR_SCRIPT_ID')) {
     document.getElementById('config-warn').style.display = 'none';
   }
+  const mainBack = document.getElementById('btn-main-back');
+  if (mainBack && CONFIG.MAIN_URL) mainBack.href = CONFIG.MAIN_URL;
 });
 
 // ── State ──
@@ -1052,10 +1227,13 @@ async function submitForm() {
     // no-cors ไม่ return response body — ถ้า fetch ไม่ throw = สำเร็จ
     showToast('success',
       'บันทึกข้อมูลเรียบร้อย ✅',
-      `${payload.name} (${payload.empid}) | ${vehicleFinal} | CO₂ ≈ ${co2.toLocaleString('th-TH')} กก./ปี`
+      `${payload.name} (${payload.empid}) | ${vehicleFinal} | CO₂ ≈ ${co2.toLocaleString('th-TH')} กก./ปี | กำลังกลับหน้าหลัก...`
     );
-    // optional: reset after success
-    // resetForm();
+    if (CONFIG.RETURN_AFTER_SAVE && CONFIG.MAIN_URL) {
+      setTimeout(() => {
+        window.location.href = CONFIG.MAIN_URL;
+      }, CONFIG.SUCCESS_REDIRECT_DELAY || 1400);
+    }
   } catch (err) {
     showToast('error', 'เกิดข้อผิดพลาด', 'ตรวจสอบ SHEET_URL และการเชื่อมต่ออินเทอร์เน็ต: ' + err.message);
   } finally {
