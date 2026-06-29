@@ -6,7 +6,7 @@
 
 const APP_CONFIG = {
   GOOGLE_SCRIPT_URL:
-    "https://script.google.com/macros/s/AKfycbzPQsK3A_l8ukHoQgsw_pL7PXXVPEyIyU41g1W-if0U5YurcJK_0W6khcQMkBYaeb2x0g/exec",
+    "https://script.google.com/macros/s/AKfycbx_3MvszsmqVtpB-eXvpoL0uy2pHyyV5PpGEJOx7xpe_fbQw-rbR75Nr5DUfCkYT7nNjw/exec/exec",
 
   PAGES: {
     HOME: "index.html",
