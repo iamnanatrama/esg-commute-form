@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Septic Tank CH4 | Rama ESG</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #17202a;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --green: #0f766e;
+      --green-dark: #134e4a;
+      --green-soft: #ecfdf5;
+      --blue: #1d4ed8;
+      --blue-soft: #eff6ff;
+      --amber: #b45309;
+      --red: #b42318;
+      --shadow: 0 18px 42px rgba(15, 23, 42, .08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Sarabun", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #edf5f4 100%);
+      color: var(--text);
+      padding: 22px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .app { max-width: 1320px; margin: 0 auto; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .brand img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+    }
+
+    .brand h1 { font-size: 21px; line-height: 1.2; }
+    .brand p { color: var(--muted); font-size: 13px; margin-top: 3px; }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav a {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .82);
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav a.active {
+      background: var(--green-soft);
+      border-color: #a7f3d0;
+      color: var(--green-dark);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 260px;
+      overflow: hidden;
+      border-radius: 26px;
+      background: #12372f;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.04) contrast(1.02);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 44, 37, .9), rgba(10, 44, 37, .58) 48%, rgba(10, 44, 37, .12));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      padding: 34px;
+      color: #fff;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #a7f3d0;
+      margin-bottom: 10px;
+    }
+
+    .hero h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, .88);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, .94);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title h3 { font-size: 22px; line-height: 1.25; }
+    .panel-title p { color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 4px; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 8px 11px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 7px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 104px;
+      line-height: 1.5;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #5eead4;
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, .14);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      margin-top: 6px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 14px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    button:disabled { cursor: not-allowed; opacity: .6; }
+    .btn-primary { background: linear-gradient(135deg, var(--green), #14b8a6); border: 0; color: #fff; }
+    .btn-blue { background: var(--blue-soft); border-color: #bfdbfe; color: var(--blue); }
+    .btn-warn { background: #fffbeb; border-color: #fde68a; color: var(--amber); }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .status.ok { display: block; background: #ecfdf3; color: #027a48; border: 1px solid #bbf7d0; }
+    .status.err { display: block; background: #fff0ee; color: var(--red); border: 1px solid #fecaca; }
+
+    .formula-box {
+      border: 1px dashed #99f6e4;
+      background: #f0fdfa;
+      border-radius: 14px;
+      padding: 14px;
+      color: var(--green-dark);
+      font-weight: 900;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 15px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1.1;
+      color: #0f172a;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tab-btn.active {
+      background: var(--green-soft);
+      border-color: #a7f3d0;
+      color: var(--green-dark);
+    }
+
+    .report-tools {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 840px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 11px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #344054;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 14px;
+    }
+
+    @media (max-width: 980px) {
+      body { padding: 14px; }
+      .layout { grid-template-columns: 1fr; }
+      .report-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      .hero-content { padding: 24px; }
+      .form-grid, .metrics, .report-tools { grid-template-columns: 1fr; }
+      .panel-title { display: block; }
+      .pill { margin-top: 10px; }
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .topbar, .hero, .entry-panel, .tabs, .report-tools, .actions, .status { display: none !important; }
+      .layout { display: block; }
+      .panel { box-shadow: none; border: 0; border-radius: 0; }
+      table { min-width: 0; font-size: 10px; }
+      th, td { padding: 5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="rama logo.jpg" alt="Rama Production logo" />
+        <div>
+          <h1>Rama ESG Septic CH4</h1>
+          <p>บันทึกและรายงานการใช้ห้องน้ำพนักงาน</p>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="commuting.html">Commuting</a>
+        <a href="calculate.html">Calculate</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a class="active" href="septic.html">Septic CH4</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <img src="Rama_ESG_Banner.png" alt="Rama ESG banner" />
+      <div class="hero-content">
+        <div class="eyebrow">ESG Wastewater / Septic Tank</div>
+        <h2>คีย์ข้อมูลรายเดือน แล้วให้ระบบคำนวณ CH4 และ CO2e</h2>
+        <p>
+          หน้าใหม่นี้ลดความรกจากตาราง 24 รายการ เหลือเป็นฟอร์มบันทึกทีละเดือน
+          เหมาะกับการนำข้อมูลจำนวนพนักงานที่มาทำงานจริงย้อนหลังมาใส่เอง และบันทึกลง Sheet
+          <strong>septic_ch4_records</strong>
+        </p>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="panel entry-panel">
+        <div class="panel-title">
+          <div>
+            <h3>บันทึกข้อมูลรายเดือน</h3>
+            <p>เลือกสาขาและเดือน ใส่จำนวนพนักงานเฉลี่ยต่อวันกับจำนวนวันทำงาน หรือวางตัวเลขรายวันให้ระบบช่วยสรุป</p>
+          </div>
+          <span class="pill">บันทึก 1 เดือน/ครั้ง</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="month">เดือนที่บันทึก</label>
+            <input id="month" type="month" />
+          </div>
+          <div class="field">
+            <label for="branch">สาขา</label>
+            <select id="branch"></select>
+          </div>
+          <div class="field">
+            <label for="employeeCount">พนักงานเฉลี่ยต่อวัน</label>
+            <input id="employeeCount" type="number" min="0" step="0.01" value="0" />
+            <div class="hint">ถ้ารวมข้อมูลรายวันแล้ว ให้ใช้ค่าเฉลี่ยของวันที่มีพนักงานมาทำงาน</div>
+          </div>
+          <div class="field">
+            <label for="workDays">จำนวนวันทำงานในเดือน</label>
+            <input id="workDays" type="number" min="0" step="1" value="0" />
+          </div>
+          <div class="field full">
+            <label for="dailyCounts">ตัวช่วย: วางจำนวนพนักงานรายวัน</label>
+            <textarea id="dailyCounts" placeholder="วางจาก Attendance Report ได้ เช่น&#10;BK&#10;51&#10;29/06/2026&#10;MH&#10;66&#10;28/06/2026&#10;หรือวางตัวเลขรายวันอย่างเดียวก็ได้"></textarea>
+            <div class="hint">รองรับรูปแบบ 3 บรรทัด: รหัสสาขา / จำนวนคน / วันที่ โดย MH = มหาชัย, BK = พระราม 9 ระบบจะใช้เฉพาะสาขาและเดือนที่เลือก</div>
+          </div>
+          <div class="field full">
+            <label for="remark">หมายเหตุ</label>
+            <input id="remark" type="text" maxlength="500" placeholder="เช่น ข้อมูลจาก HR attendance / รวมเฉพาะวันทำงานจริง" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="parseDailyBtn" type="button" class="btn-blue">คำนวณจากรายวัน</button>
+          <button id="saveBtn" type="button" class="btn-primary">บันทึกลง Sheet</button>
+          <button id="resetBtn" type="button" class="btn-warn">ล้างฟอร์ม</button>
+        </div>
+
+        <div id="entryStatus" class="status"></div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-title">
+          <div>
+            <h3>ผลคำนวณก่อนบันทึก</h3>
+            <p>สูตรและค่า emission factor แก้ได้จาก <strong>assets/js/septic-config.js</strong></p>
+          </div>
+        </div>
+
+        <div class="formula-box">
+          CH4 kg = Employees x Work Days x BOD x B0 x MCF x Correction<br />
+          CO2e kg = CH4 kg x GWP CH4
+        </div>
+
+        <div class="metrics">
+          <div class="metric"><span>Activity BOD kg</span><strong id="previewBod">0</strong></div>
+          <div class="metric"><span>CH4 kg</span><strong id="previewCh4">0</strong></div>
+          <div class="metric"><span>CO2e kg</span><strong id="previewCo2eKg">0</strong></div>
+          <div class="metric"><span>CO2e ton</span><strong id="previewCo2eTon">0</strong></div>
+        </div>
+
+        <p class="hint">
+          ค่า default ปัจจุบัน: BOD <span id="factorBod">-</span>,
+          B0 <span id="factorB0">-</span>,
+          MCF <span id="factorMcf">-</span>,
+          GWP CH4 <span id="factorGwp">-</span>
+        </p>
+      </aside>
+
+      <section class="panel" style="grid-column: 1 / -1;">
+        <div class="panel-title">
+          <div>
+            <h3>Report / Export</h3>
+            <p>โหลดข้อมูลจาก Sheet ใหม่ตามช่วงเดือนและสาขา เพื่อ Export CSV หรือ Save เป็น PDF</p>
+          </div>
+          <span class="pill">septic_ch4_records</span>
+        </div>
+
+        <div class="report-tools">
+          <div>
+            <label for="filterBranch">สาขา</label>
+            <select id="filterBranch"><option value="">ทุกสาขา</option></select>
+          </div>
+          <div>
+            <label for="fromMonth">ตั้งแต่เดือน</label>
+            <input id="fromMonth" type="month" />
+          </div>
+          <div>
+            <label for="toMonth">ถึงเดือน</label>
+            <input id="toMonth" type="month" />
+          </div>
+          <div>
+            <label>คำสั่ง</label>
+            <button id="loadReportBtn" type="button" class="btn-primary" style="width: 100%;">โหลดรายงาน</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="csvBtn" type="button" class="btn-blue">Export CSV</button>
+          <button id="pdfBtn" type="button" class="btn-blue">Export PDF</button>
+        </div>
+
+        <div id="reportStatus" class="status"></div>
+
+        <div class="metrics">
+          <div class="metric"><span>จำนวนรายการ</span><strong id="mRows">0</strong></div>
+          <div class="metric"><span>Activity BOD kg</span><strong id="mBod">0</strong></div>
+          <div class="metric"><span>CH4 kg</span><strong id="mCh4">0</strong></div>
+          <div class="metric"><span>CO2e ton</span><strong id="mCo2eTon">0</strong></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>เดือน</th>
+                <th>สาขา</th>
+                <th>พนักงานเฉลี่ย/วัน</th>
+                <th>วันทำงาน</th>
+                <th>CH4 kg</th>
+                <th>CO2e kg</th>
+                <th>CO2e ton</th>
+                <th>หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody id="reportBody">
+              <tr><td class="empty" colspan="8">กดโหลดรายงานเพื่อดูข้อมูล</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/septic-config.js"></script>
+  <script src="assets/js/septic-core.js"></script>
+  <script src="assets/js/septic-api.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const cfg = window.SEPTIC_CONFIG;
+    const core = window.SepticCore;
+    const branchLabels = { Mahachai: "มหาชัย", Rama9: "พระราม 9" };
+    const attendanceBranchMap = { MH: "Mahachai", BK: "Rama9" };
+    let currentReportRows = [];
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function branchLabel(value) {
+      return branchLabels[value] || core.getBranchLabel(value);
+    }
+
+    function formatNumber(value, digits) {
+      return core.round(value, digits).toLocaleString("th-TH");
+    }
+
+    function showStatus(id, message, type) {
+      const el = $(id);
+      el.textContent = message;
+      el.className = `status ${type}`;
+    }
+
+    function getBranchOptions(selectedValue) {
+      return cfg.branches.map((branch) => {
+        const selected = branch.value === selectedValue ? "selected" : "";
+        return `<option value="${branch.value}" ${selected}>${branchLabel(branch.value)}</option>`;
+      }).join("");
+    }
+
+    function currentRecord() {
+      const record = {
+        month: $("month").value,
+        branch: $("branch").value,
+        employee_count: core.toNumber($("employeeCount").value),
+        work_days: core.toNumber($("workDays").value),
+        bod_kg_per_person_day: cfg.factors.bodKgPerPersonDay,
+        b0_ch4_kg_per_kg_bod: cfg.factors.b0Ch4KgPerKgBod,
+        mcf: cfg.factors.mcfSepticTank,
+        gwp_ch4: cfg.factors.gwpCh4,
+        correction_factor: cfg.factors.correctionFactor,
+        remark: $("remark").value.trim()
+      };
+
+      return Object.assign(record, core.calculateSeptic(record));
+    }
+
+    function refreshPreview() {
+      const record = currentRecord();
+      $("previewBod").textContent = formatNumber(record.activity_data_bod_kg, 2);
+      $("previewCh4").textContent = formatNumber(record.ch4_kg, 2);
+      $("previewCo2eKg").textContent = formatNumber(record.co2e_kg, 2);
+      $("previewCo2eTon").textContent = formatNumber(record.co2e_ton, 4);
+    }
+
+    function parseThaiDate(value) {
+      const match = String(value).trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (!match) return "";
+
+      const day = Number(match[1]);
+      const month = Number(match[2]);
+      const year = Number(match[3]);
+
+      if (day < 1 || day > 31 || month < 1 || month > 12 || year < 2000) return "";
+      return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+
+    function parseAttendanceReport(text) {
+      const tokens = String(text)
+        .split(/\r?\n|\t/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+      const rows = [];
+
+      for (let i = 0; i <= tokens.length - 3; i += 1) {
+        const branchCode = tokens[i].toUpperCase();
+        const branch = attendanceBranchMap[branchCode];
+        const count = Number(tokens[i + 1]);
+        const date = parseThaiDate(tokens[i + 2]);
+
+        if (branch && Number.isFinite(count) && count >= 0 && date) {
+          rows.push({ branch, count, date, month: date.slice(0, 7) });
+          i += 2;
+        }
+      }
+
+      return rows;
+    }
+
+    function parseDailyCounts() {
+      const rawText = $("dailyCounts").value;
+      const attendanceRows = parseAttendanceReport(rawText);
+
+      if (attendanceRows.length) {
+        const selectedMonth = $("month").value;
+        const selectedBranch = $("branch").value;
+        const dailyTotals = new Map();
+
+        attendanceRows
+          .filter((row) => row.month === selectedMonth && row.branch === selectedBranch)
+          .forEach((row) => {
+            dailyTotals.set(row.date, (dailyTotals.get(row.date) || 0) + row.count);
+          });
+
+        const values = Array.from(dailyTotals.values()).filter((value) => value > 0);
+
+        if (!values.length) {
+          const branches = Array.from(new Set(attendanceRows.map((row) => `${branchLabel(row.branch)} ${row.month}`))).join(", ");
+          showStatus("entryStatus", `อ่าน Attendance ได้ ${attendanceRows.length} รายการ แต่ไม่พบข้อมูลตรงกับ ${branchLabel(selectedBranch)} ${selectedMonth}. ข้อมูลที่พบ: ${branches}`, "err");
+          return;
+        }
+
+        const total = values.reduce((sum, value) => sum + value, 0);
+        $("workDays").value = values.length;
+        $("employeeCount").value = core.round(total / values.length, 2);
+        refreshPreview();
+        showStatus("entryStatus", `สรุป Attendance ${branchLabel(selectedBranch)} ${selectedMonth}: ${values.length} วัน รวม ${formatNumber(total, 0)} person-days เฉลี่ย ${$("employeeCount").value} คน/วัน`, "ok");
+        return;
+      }
+
+      const values = rawText
+        .split(/\r?\n|,|\t/)
+        .map((item) => Number(String(item).trim()))
+        .filter((value) => Number.isFinite(value) && value >= 0);
+
+      if (!values.length) {
+        showStatus("entryStatus", "ยังไม่มีตัวเลขรายวันที่อ่านได้", "err");
+        return;
+      }
+
+      const total = values.reduce((sum, value) => sum + value, 0);
+      $("workDays").value = values.length;
+      $("employeeCount").value = core.round(total / values.length, 2);
+      refreshPreview();
+      showStatus("entryStatus", `สรุปจากข้อมูลรายวัน ${values.length} วัน รวม ${formatNumber(total, 0)} คน เฉลี่ย ${$("employeeCount").value} คน/วัน`, "ok");
+    }
+
+    function validateRecord(record) {
+      if (!record.month) return "กรุณาเลือกเดือน";
+      if (!record.branch) return "กรุณาเลือกสาขา";
+      if (record.employee_count <= 0) return "กรุณาใส่จำนวนพนักงานเฉลี่ยต่อวันมากกว่า 0";
+      if (record.work_days <= 0) return "กรุณาใส่จำนวนวันทำงานมากกว่า 0";
+      return "";
+    }
+
+    async function saveRecord() {
+      const record = currentRecord();
+      const error = validateRecord(record);
+      if (error) {
+        showStatus("entryStatus", error, "err");
+        return;
+      }
+
+      $("saveBtn").disabled = true;
+      try {
+        const result = await window.SepticApi.saveRecords([record]);
+        showStatus("entryStatus", `บันทึกสำเร็จ ${result.inserted || 1} รายการ: ${branchLabel(record.branch)} ${record.month}`, "ok");
+        await loadReport();
+      } catch (err) {
+        showStatus("entryStatus", err.message, "err");
+      } finally {
+        $("saveBtn").disabled = false;
+      }
+    }
+
+    function resetForm() {
+      $("employeeCount").value = 0;
+      $("workDays").value = 0;
+      $("dailyCounts").value = "";
+      $("remark").value = "";
+      refreshPreview();
+      showStatus("entryStatus", "ล้างฟอร์มแล้ว", "ok");
+    }
+
+    function renderMetrics(rows) {
+      const summary = core.summarize(rows);
+      $("mRows").textContent = summary.rows.toLocaleString("th-TH");
+      $("mBod").textContent = formatNumber(summary.activity_data_bod_kg, 2);
+      $("mCh4").textContent = formatNumber(summary.ch4_kg, 2);
+      $("mCo2eTon").textContent = formatNumber(summary.co2e_ton, 4);
+    }
+
+    function renderReport(rows) {
+      if (!rows.length) {
+        $("reportBody").innerHTML = `<tr><td class="empty" colspan="8">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;
+        renderMetrics([]);
+        return;
+      }
+
+      $("reportBody").innerHTML = rows.map((row) => `
+        <tr>
+          <td>${escapeHtml(core.formatMonthTh(row.month))}</td>
+          <td>${escapeHtml(branchLabel(row.branch))}</td>
+          <td>${formatNumber(row.employee_count, 2)}</td>
+          <td>${formatNumber(row.work_days, 0)}</td>
+          <td>${formatNumber(row.ch4_kg, 2)}</td>
+          <td>${formatNumber(row.co2e_kg, 2)}</td>
+          <td>${formatNumber(row.co2e_ton, 4)}</td>
+          <td>${escapeHtml(row.remark || "")}</td>
+        </tr>
+      `).join("");
+      renderMetrics(rows);
+    }
+
+    async function loadReport() {
+      $("loadReportBtn").disabled = true;
+      try {
+        const filters = {
+          branch: $("filterBranch").value,
+          fromMonth: $("fromMonth").value,
+          toMonth: $("toMonth").value
+        };
+        const result = await window.SepticApi.getRecords(filters);
+        currentReportRows = (result.records || []).map((row) => ({
+          ...row,
+          month: core.normalizeMonth(row.month)
+        }));
+        renderReport(currentReportRows);
+        showStatus("reportStatus", `โหลดข้อมูลสำเร็จ ${currentReportRows.length} รายการ`, "ok");
+      } catch (err) {
+        showStatus("reportStatus", err.message, "err");
+      } finally {
+        $("loadReportBtn").disabled = false;
+      }
+    }
+
+    function init() {
+      const months = core.getLastMonths(12);
+      $("month").value = months[months.length - 1];
+      $("fromMonth").value = months[0];
+      $("toMonth").value = months[months.length - 1];
+      $("branch").innerHTML = getBranchOptions(cfg.branches[0].value);
+      cfg.branches.forEach((branch) => {
+        $("filterBranch").insertAdjacentHTML("beforeend", `<option value="${branch.value}">${branchLabel(branch.value)}</option>`);
+      });
+
+      $("factorBod").textContent = cfg.factors.bodKgPerPersonDay;
+      $("factorB0").textContent = cfg.factors.b0Ch4KgPerKgBod;
+      $("factorMcf").textContent = cfg.factors.mcfSepticTank;
+      $("factorGwp").textContent = cfg.factors.gwpCh4;
+      refreshPreview();
+    }
+
+    ["month", "branch", "employeeCount", "workDays", "remark"].forEach((id) => {
+      $(id).addEventListener("input", refreshPreview);
+      $(id).addEventListener("change", refreshPreview);
+    });
+
+    $("parseDailyBtn").addEventListener("click", parseDailyCounts);
+    $("saveBtn").addEventListener("click", saveRecord);
+    $("resetBtn").addEventListener("click", resetForm);
+    $("loadReportBtn").addEventListener("click", loadReport);
+    $("csvBtn").addEventListener("click", () => {
+      core.exportCsv(`septic_ch4_report_${new Date().toISOString().slice(0, 10)}.csv`, currentReportRows);
+    });
+    $("pdfBtn").addEventListener("click", () => window.print());
+
+    init();
+  </script>
+</body>
+</html>
