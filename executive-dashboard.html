@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rama ESG Executive Summary</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #eef7f3;
+      --card: #ffffff;
+      --text: #122b24;
+      --muted: #60766e;
+      --green: #118451;
+      --blue: #126fd0;
+      --orange: #ff7a00;
+      --purple: #8b43dc;
+      --line: rgba(29,125,88,.16);
+      --shadow: 0 18px 45px rgba(21,74,56,.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef8f4, #f7fbf8 60%, #eef7f3);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1380px; margin: 0 auto; padding: 22px; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { width: 62px; height: 72px; object-fit: contain; border-radius: 16px; background: #fff; box-shadow: 0 12px 26px rgba(20,83,59,.12); }
+    .brand h1 { margin: 0; font-size: 24px; letter-spacing: -.03em; }
+    .brand p { margin: 3px 0 0; color: var(--muted); font-weight: 800; font-size: 13px; }
+    .nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    .nav a, .nav button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 900;
+      color: #0b5f42;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .hero {
+      min-height: 330px;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      background: #dff2ed;
+    }
+    .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(244,252,248,.96), rgba(244,252,248,.70) 42%, rgba(244,252,248,.20));
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; padding: 48px; }
+    .eyebrow { display: inline-flex; padding: 8px 12px; border-radius: 999px; background: #e4f7ec; color: var(--green); font-weight: 950; font-size: 12px; margin-bottom: 16px; }
+    .hero h2 { margin: 0; font-size: clamp(36px, 5vw, 62px); line-height: .98; letter-spacing: -.055em; }
+    .hero p { color: #31564a; font-size: 17px; line-height: 1.65; font-weight: 750; }
+    .status-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .status-row span { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 900; color: #0b5f42; }
+    .kpis { display: grid; grid-template-columns: 1.25fr repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(20,83,59,.07);
+      min-height: 128px;
+    }
+    .kpi.featured { background: linear-gradient(135deg, #fff, #e9f8ef); }
+    .kpi small { color: var(--muted); font-weight: 900; text-transform: uppercase; font-size: 11px; }
+    .kpi strong { display: block; margin-top: 10px; color: var(--color, var(--green)); font-size: 32px; font-weight: 950; letter-spacing: -.035em; }
+    .kpi span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; font-weight: 800; }
+    .grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; margin-bottom: 18px; }
+    .panel { background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 24px; padding: 20px; box-shadow: var(--shadow); }
+    .panel-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .panel h3 { margin: 0; font-size: 22px; letter-spacing: -.035em; }
+    .panel p { margin: 5px 0 0; color: var(--muted); font-weight: 750; font-size: 13px; }
+    .chart { height: 330px; }
+    .module-list { display: grid; gap: 12px; }
+    .module-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-radius: 18px; border: 1px solid var(--line); background: #fff; }
+    .module-card strong { display: block; font-size: 15px; }
+    .module-card span { display: block; margin-top: 4px; color: var(--muted); font-weight: 800; font-size: 12px; }
+    .module-card b { color: var(--module-color); white-space: nowrap; }
+    .module-card.pending { opacity: .72; background: #fffaf3; }
+    .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .action { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: 0 10px 28px rgba(20,83,59,.06); }
+    .action b { display: block; margin-bottom: 6px; }
+    .action span { color: var(--muted); font-size: 13px; font-weight: 750; }
+    .footer { color: var(--muted); font-weight: 750; padding: 10px 2px 0; }
+    @media (max-width: 1050px) {
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .kpi.featured { grid-column: 1 / -1; }
+      .grid, .action-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .page { padding: 14px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .hero-content { padding: 30px 22px; }
+      .kpis { grid-template-columns: 1fr; }
+      .chart { height: 260px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="image/rama logo.jpg" alt="Rama Production logo" />
+        <div>
+          <h1>Rama ESG Portal</h1>
+          <p>Executive ESG Summary</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="index.html">หน้าแรก</a>
+        <a href="dashboard.html">Commuting Dashboard</a>
+        <a href="septic.html">Septic CH4</a>
+        <button onclick="window.print()">Print / PDF</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <img src="image/Rama_ESG_Banner.png" alt="Rama ESG company banner" />
+      <div class="hero-content">
+        <div class="eyebrow">RAMA PRODUCTION CO., LTD.</div>
+        <h2>Executive ESG<br />Summary</h2>
+        <p>ภาพรวม Carbon Footprint ขององค์กรจากหมวดข้อมูลที่เชื่อมต่อแล้ว พร้อมแยกสถานะข้อมูลที่รอเชื่อมต่อ เพื่อใช้ติดตามงานภายในและรองรับการตรวจสอบย้อนหลัง</p>
+        <div class="status-row">
+          <span id="sourceStatus">กำลังเชื่อมต่อข้อมูล...</span>
+          <span id="lastUpdated">อัปเดตล่าสุด: -</span>
+          <span>รองรับ Audit Trail</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpis">
+      <article class="kpi featured" style="--color:#118451"><small>Total Organization CO2e</small><strong id="kpiTotalCo2">0</strong><span>kg CO2e จากหมวดที่เชื่อมต่อแล้ว</span></article>
+      <article class="kpi" style="--color:#118451"><small>Commuting</small><strong id="kpiCommuting">0</strong><span>kg CO2e</span></article>
+      <article class="kpi" style="--color:#ff7a00"><small>Septic CH4</small><strong id="kpiSeptic">0</strong><span>kg CO2e</span></article>
+      <article class="kpi" style="--color:#8b43dc"><small>Data Coverage</small><strong id="kpiCoverage">0/3</strong><span>หมวดข้อมูล</span></article>
+      <article class="kpi" style="--color:#126fd0"><small>Employees</small><strong id="kpiEmployees">0</strong><span>คนในข้อมูล commuting</span></article>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="panel-head"><div><h3>Module Status</h3><p>สถานะหมวดข้อมูลที่รวมในยอดองค์กร</p></div></div>
+        <div class="module-list" id="moduleCards"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><h3>CO2e by Module</h3><p>สัดส่วน CO2e แยกตามแหล่งข้อมูล</p></div></div>
+        <div class="chart"><canvas id="moduleChart"></canvas></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Organization Trend</h3><p>แนวโน้ม CO2e รายเดือนจากข้อมูลที่เชื่อมต่อแล้ว</p></div></div>
+      <div class="chart"><canvas id="trendChart"></canvas></div>
+    </section>
+
+    <section class="action-grid">
+      <a class="action" href="dashboard.html"><b>ดูรายละเอียด Commuting</b><span>แยกตามแผนก สาขา ยานพาหนะ และรายชื่อพนักงาน</span></a>
+      <a class="action" href="septic.html"><b>บันทึก / ตรวจ Septic CH4</b><span>ข้อมูล CH4 และ CO2e จากระบบ septic tank รายเดือน</span></a>
+      <a class="action" href="index.html"><b>กลับหน้าแรก</b><span>ศูนย์รวมฟอร์ม เครื่องคำนวณ และ dashboard ของระบบ ESG</span></a>
+    </section>
+
+    <div class="footer">Rama Production Co., Ltd. · Executive ESG Summary · Connected modules only</div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/formatter.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/septic-config.js"></script>
+  <script src="assets/js/septic-core.js"></script>
+  <script src="assets/js/septic-api.js"></script>
+  <script src="assets/js/executive-dashboard.js"></script>
+</body>
+</html>
