@@ -152,14 +152,17 @@
        ESG CONTENT GRID
        ด้านล่าง: Scope 2 Flow เดิมแนวคิดเดิม + ESG KPI
        ===================================================== */
-    .content-grid { display:grid; grid-template-columns:1.15fr .85fr; gap:18px; }
+    .content-grid { display:grid; grid-template-columns:1fr; gap:18px; }
     .panel { background:rgba(255,255,255,.9); border:1px solid var(--border); border-radius:26px; padding:24px; box-shadow:0 14px 36px rgba(20,83,59,.08); overflow:hidden; }
+    .glance-panel { order:-1; }
+    .scope-panel { padding:20px; }
     .panel-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; margin-bottom:14px; }
     .panel h2 { margin:0; font-size:26px; color:#0b3d2e; letter-spacing:-.04em; }
     .panel p { margin:6px 0 0; color:#557169; font-weight:700; line-height:1.5; }
     .small-pill { padding:9px 13px; border-radius:999px; background:#fff; border:1px solid var(--border); color:var(--primary-dark); font-weight:950; font-size:12px; white-space:nowrap; }
 
     .scope2-svg { width:100%; height:260px; display:block; margin:8px 0 10px; }
+    .scope-panel .scope2-svg { height:190px; margin:0 0 8px; }
     .flow-line { fill:none; stroke:#31a66f; stroke-width:5; stroke-linecap:round; stroke-dasharray:16 18; animation:dash 2.6s linear infinite; filter:drop-shadow(0 0 7px rgba(31,143,95,.35)); }
     .flow-base { fill:none; stroke:rgba(31,83,65,.16); stroke-width:9; stroke-linecap:round; }
     .svg-label { font-weight:950; fill:#113d31; font-size:13px; }
@@ -173,11 +176,14 @@
     .scope-formula b { color:var(--primary-dark); }
 
     .glance-list { display:grid; gap:12px; }
+    .glance-list.expanded { grid-template-columns:repeat(3, minmax(0, 1fr)); }
     .glance-item { display:grid; grid-template-columns:58px 1fr auto; gap:14px; align-items:center; padding:16px; border-radius:18px; background:white; border:1px solid rgba(0,0,0,.04); box-shadow:0 8px 22px rgba(30,70,55,.06); }
+    .glance-item.featured { grid-column:1 / -1; padding:20px; background:linear-gradient(135deg, rgba(255,255,255,.98), rgba(228,247,236,.92)); border:1px solid rgba(17,132,81,.18); }
     .glance-icon { width:50px; height:50px; border-radius:50%; display:grid; place-items:center; font-size:26px; background:var(--soft); }
     .glance-item strong { display:block; font-size:15px; }
     .glance-item span { display:block; color:#60766e; font-weight:750; font-size:12px; margin-top:3px; }
     .glance-value { font-size:28px; font-weight:950; color:var(--color); white-space:nowrap; }
+    .glance-item.featured .glance-value { font-size:34px; }
     .glance-value span { display:inline; color:inherit; font-size:inherit; font-weight:inherit; margin-top:0; }
     .glance-value small { font-size:12px; margin-left:4px; }
     .glance-status { font-size:14px; font-weight:950; color:var(--color); white-space:normal; text-align:right; max-width:170px; }
@@ -202,6 +208,7 @@
     @media (max-width: 1050px) {
       .quick-grid { grid-template-columns:repeat(2,1fr); }
       .content-grid { grid-template-columns:1fr; }
+      .glance-list.expanded { grid-template-columns:1fr 1fr; }
       .why-panel { grid-template-columns:1fr 1fr; }
     }
     @media (max-width: 760px) {
@@ -219,6 +226,7 @@
       .i-leaf { left:8%; top:52%; } .i-wind { right:8%; top:50%; } .i-hand,.i-balance,.i-co2 { display:none; }
       .quick-grid { grid-template-columns:1fr; }
       .metric-row { grid-template-columns:1fr; }
+      .glance-list.expanded { grid-template-columns:1fr; }
       .scope-formula { flex-direction:column; }
       .why-panel { grid-template-columns:1fr; }
       footer { flex-direction:column; }
@@ -305,7 +313,7 @@
       </section>
 
       <section class="content-grid" id="scope2">
-        <article class="panel">
+        <article class="panel scope-panel">
           <div class="panel-head"><div><h2>Electricity → Scope 2 CO₂e</h2><p>ตั้งแต่ผลิตไฟฟ้า ส่งจ่าย ใช้งาน จนกลายเป็นคาร์บอนทางอ้อม</p></div><span class="small-pill">Live ESG Flow</span></div>
           <!-- =====================================================
                SCOPE 2 SVG ANIMATION
@@ -324,14 +332,15 @@
           <div class="scope-formula"><span>ไฟฟ้าไม่ได้ปล่อยควันตรงหน้าอาคาร แต่มี CO₂e จากต้นทางการผลิต</span><b>kWh × Emission Factor = Scope 2 CO₂e</b></div>
         </article>
 
-        <aside class="panel">
+        <aside class="panel glance-panel">
           <div class="panel-head"><div><h2>ESG at a Glance</h2></div><span class="small-pill">This Month⌄</span></div>
-          <div class="glance-list">
-            <div class="glance-item" style="--soft:#e4f7ec;--color:#118451"><div class="glance-icon">🌿</div><div><strong>Total CO₂e</strong><span>รวม CO₂e จากข้อมูลการเดินทาง</span></div><div class="glance-value"><span id="glanceTotalCo2">กำลังโหลด</span> <small>kg CO₂e</small></div></div>
-            <div class="glance-item" style="--soft:#e8f2ff;--color:#126fd0"><div class="glance-icon">⚡</div><div><strong>Energy Usage</strong><span>การใช้พลังงานรวม</span></div><div class="glance-status" id="glanceEnergy">รอข้อมูลการใช้ไฟฟ้า</div></div>
+          <div class="glance-list expanded">
+            <div class="glance-item featured" style="--soft:#e4f7ec;--color:#118451"><div class="glance-icon">🌿</div><div><strong>Total Organization CO₂e</strong><span>รวมเฉพาะหมวดที่เชื่อมข้อมูลจริงแล้ว</span></div><div class="glance-value"><span id="glanceTotalOrgCo2">กำลังโหลด</span> <small>kg CO₂e</small></div></div>
+            <div class="glance-item" style="--soft:#e4f7ec;--color:#118451"><div class="glance-icon">🚗</div><div><strong>Employee Commuting</strong><span>CO₂e จากการเดินทางพนักงาน</span></div><div class="glance-value"><span id="glanceCommutingCo2">กำลังโหลด</span> <small>kg</small></div></div>
+            <div class="glance-item" style="--soft:#fff0df;--color:#ff7a00"><div class="glance-icon">🚻</div><div><strong>Septic CH₄</strong><span>CO₂e จากระบบ septic tank</span></div><div class="glance-value"><span id="glanceSepticCo2">กำลังโหลด</span> <small>kg</small></div></div>
+            <div class="glance-item" style="--soft:#e8f2ff;--color:#126fd0"><div class="glance-icon">⚡</div><div><strong>Energy Usage</strong><span>Scope 2 Electricity</span></div><div class="glance-status" id="glanceEnergy">รอข้อมูลการใช้ไฟฟ้า</div></div>
             <div class="glance-item" style="--soft:#fff0df;--color:#ff7a00"><div class="glance-icon">👥</div><div><strong>Active Employees</strong><span>พนักงานที่มีข้อมูลในระบบ</span></div><div class="glance-value"><span id="glanceEmployees">กำลังโหลด</span> <small>คน</small></div></div>
-            <div class="glance-item" style="--soft:#f1e8ff;--color:#8b43dc"><div class="glance-icon">📋</div><div><strong>Responses</strong><span>จำนวนรายการข้อมูลที่ส่งเข้าระบบ</span></div><div class="glance-value"><span id="glanceResponses">กำลังโหลด</span> <small>รายการ</small></div></div>
-            <div class="glance-item" style="--soft:#e5fbfa;--color:#12a69c"><div class="glance-icon">🎯</div><div><strong>Reduction Target</strong><span>เป้าหมายลดคาร์บอนปีนี้</span></div><div class="glance-status" id="glanceTarget">รอข้อมูลเป้าหมายลดคาร์บอน</div></div>
+            <div class="glance-item" style="--soft:#f1e8ff;--color:#8b43dc"><div class="glance-icon">📋</div><div><strong>Data Coverage</strong><span>หมวดข้อมูลที่รวมในยอดองค์กร</span></div><div class="glance-value"><span id="glanceCoverage">0/3</span></div></div>
           </div>
         </aside>
       </section>
@@ -353,6 +362,9 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/formatter.js"></script>
   <script src="assets/js/api.js"></script>
+  <script src="assets/js/septic-config.js"></script>
+  <script src="assets/js/septic-core.js"></script>
+  <script src="assets/js/septic-api.js"></script>
   <script src="assets/js/index-summary.js"></script>
 </body>
 </html>
