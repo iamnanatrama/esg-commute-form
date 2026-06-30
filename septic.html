@@ -481,7 +481,7 @@
         <p class="hint">
           ค่า default ปัจจุบัน: BOD <span id="factorBod">-</span>,
           B0 <span id="factorB0">-</span>,
-          MCF <span id="factorMcf">-</span>,
+          MCF <span id="factorMcf">-</span> (<span id="factorTreatment">-</span>),
           GWP CH4 <span id="factorGwp">-</span>
         </p>
       </aside>
@@ -536,6 +536,7 @@
                 <th>สาขา</th>
                 <th>พนักงานเฉลี่ย/วัน</th>
                 <th>วันทำงาน</th>
+                <th>MCF</th>
                 <th>CH4 kg</th>
                 <th>CO2e kg</th>
                 <th>CO2e ton</th>
@@ -543,7 +544,7 @@
               </tr>
             </thead>
             <tbody id="reportBody">
-              <tr><td class="empty" colspan="8">กดโหลดรายงานเพื่อดูข้อมูล</td></tr>
+              <tr><td class="empty" colspan="9">กดโหลดรายงานเพื่อดูข้อมูล</td></tr>
             </tbody>
           </table>
         </div>
@@ -592,7 +593,12 @@
       }).join("");
     }
 
+    function selectedBranchFactor() {
+      return core.getBranchFactor($("branch").value);
+    }
+
     function currentRecord() {
+      const branchFactor = selectedBranchFactor();
       const record = {
         month: $("month").value,
         branch: $("branch").value,
@@ -600,7 +606,7 @@
         work_days: core.toNumber($("workDays").value),
         bod_kg_per_person_day: cfg.factors.bodKgPerPersonDay,
         b0_ch4_kg_per_kg_bod: cfg.factors.b0Ch4KgPerKgBod,
-        mcf: cfg.factors.mcfSepticTank,
+        mcf: branchFactor.mcf,
         gwp_ch4: cfg.factors.gwpCh4,
         correction_factor: cfg.factors.correctionFactor,
         remark: $("remark").value.trim()
@@ -615,6 +621,8 @@
       $("previewCh4").textContent = formatNumber(record.ch4_kg, 2);
       $("previewCo2eKg").textContent = formatNumber(record.co2e_kg, 2);
       $("previewCo2eTon").textContent = formatNumber(record.co2e_ton, 4);
+      $("factorMcf").textContent = record.factors_used.mcf;
+      $("factorTreatment").textContent = record.factors_used.treatmentType;
     }
 
     function parseThaiDate(value) {
@@ -746,7 +754,7 @@
 
     function renderReport(rows) {
       if (!rows.length) {
-        $("reportBody").innerHTML = `<tr><td class="empty" colspan="8">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;
+        $("reportBody").innerHTML = `<tr><td class="empty" colspan="9">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;
         renderMetrics([]);
         return;
       }
@@ -757,6 +765,7 @@
           <td>${escapeHtml(branchLabel(row.branch))}</td>
           <td>${formatNumber(row.employee_count, 2)}</td>
           <td>${formatNumber(row.work_days, 0)}</td>
+          <td>${formatNumber(row.mcf, 2)}</td>
           <td>${formatNumber(row.ch4_kg, 2)}</td>
           <td>${formatNumber(row.co2e_kg, 2)}</td>
           <td>${formatNumber(row.co2e_ton, 4)}</td>
@@ -800,7 +809,6 @@
 
       $("factorBod").textContent = cfg.factors.bodKgPerPersonDay;
       $("factorB0").textContent = cfg.factors.b0Ch4KgPerKgBod;
-      $("factorMcf").textContent = cfg.factors.mcfSepticTank;
       $("factorGwp").textContent = cfg.factors.gwpCh4;
       refreshPreview();
     }
