@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rama ESG Methodology & Audit Trail</title>
+  <style>
+    :root {
+      --bg: #eef7f3;
+      --card: #ffffff;
+      --text: #122b24;
+      --muted: #60766e;
+      --green: #118451;
+      --blue: #126fd0;
+      --orange: #ff7a00;
+      --purple: #8b43dc;
+      --line: rgba(29,125,88,.16);
+      --shadow: 0 18px 45px rgba(21,74,56,.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef8f4, #f7fbf8 60%, #eef7f3);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1380px; margin: 0 auto; padding: 22px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:18px; }
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand img { width:62px; height:72px; object-fit:contain; border-radius:16px; background:#fff; box-shadow:0 12px 26px rgba(20,83,59,.12); }
+    .brand h1 { margin:0; font-size:24px; letter-spacing:-.03em; }
+    .brand p { margin:3px 0 0; color:var(--muted); font-weight:800; font-size:13px; }
+    .nav { display:flex; gap:10px; flex-wrap:wrap; }
+    .nav a, .nav button { border:1px solid var(--line); background:#fff; border-radius:12px; padding:10px 13px; font-weight:900; color:#0b5f42; cursor:pointer; font-family:inherit; }
+    .hero { min-height:310px; border-radius:28px; overflow:hidden; position:relative; box-shadow:var(--shadow); margin-bottom:18px; background:#dff2ed; }
+    .hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .hero::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(244,252,248,.97), rgba(244,252,248,.78) 44%, rgba(244,252,248,.18)); }
+    .hero-content { position:relative; z-index:1; max-width:820px; padding:48px; }
+    .eyebrow { display:inline-flex; padding:8px 12px; border-radius:999px; background:#e4f7ec; color:var(--green); font-weight:950; font-size:12px; margin-bottom:16px; }
+    .hero h2 { margin:0; font-size:clamp(36px, 5vw, 62px); line-height:.98; letter-spacing:-.055em; }
+    .hero p { color:#31564a; font-size:17px; line-height:1.65; font-weight:750; }
+    .status-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    .status-row span { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; font-weight:900; color:#0b5f42; }
+    .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:18px; }
+    .card, .panel { background:rgba(255,255,255,.94); border:1px solid var(--line); border-radius:22px; padding:20px; box-shadow:var(--shadow); }
+    .card strong { display:block; font-size:18px; margin-bottom:8px; }
+    .card p, .panel p { color:var(--muted); font-weight:750; line-height:1.6; margin:0; }
+    .panel { margin-bottom:18px; }
+    .panel-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:14px; }
+    .panel h3 { margin:0; font-size:24px; letter-spacing:-.035em; }
+    .formula { display:grid; gap:10px; }
+    .formula code { display:block; padding:14px 16px; border-radius:14px; background:#f4fbf7; border:1px solid rgba(17,132,81,.14); color:#0b5f42; font-weight:900; white-space:normal; line-height:1.55; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:16px; background:#fff; }
+    table { width:100%; border-collapse:collapse; min-width:860px; }
+    th, td { text-align:left; border-bottom:1px solid #e7eef1; padding:11px 12px; font-size:13px; vertical-align:top; }
+    th { background:#f8fafc; color:#24433a; font-weight:950; }
+    td { color:#334b44; font-weight:750; }
+    .trace-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .trace-box { padding:16px; border-radius:18px; background:#fff; border:1px solid var(--line); }
+    .trace-box b { display:block; margin-bottom:8px; color:#0b3d2e; }
+    .trace-box ul { margin:0; padding-left:19px; color:#47635b; font-weight:750; line-height:1.7; }
+    .footer { color:var(--muted); font-weight:750; padding:10px 2px 0; }
+    @media (max-width:1050px) { .grid, .trace-grid { grid-template-columns:1fr; } }
+    @media (max-width:720px) {
+      .page { padding:14px; }
+      .topbar { align-items:flex-start; flex-direction:column; }
+      .hero-content { padding:30px 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <img src="image/rama logo.jpg" alt="Rama Production logo" />
+        <div>
+          <h1>Rama ESG Portal</h1>
+          <p>Methodology & Audit Trail</p>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">หน้าแรก</a>
+        <a href="executive-dashboard.html">Executive Summary</a>
+        <a href="dashboard.html">Commuting Dashboard</a>
+        <a href="septic.html">Septic CH4</a>
+        <button onclick="window.print()">Print / PDF</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <img src="image/Rama_ESG_Banner.png" alt="Rama ESG company banner" />
+      <div class="hero-content">
+        <div class="eyebrow">AUDIT READY DOCUMENTATION</div>
+        <h2>Calculation Methodology<br />& Factor Register</h2>
+        <p>หน้ารวมสูตรคำนวณ พารามิเตอร์ แหล่งข้อมูล และแนวทางทวนสอบย้อนหลัง เพื่อให้ทีม ESG/QA/ผู้ตรวจประเมินเห็นได้ชัดว่าตัวเลข CO2e คำนวณจากอะไร ใช้ค่า factor ใด และต้องเก็บหลักฐานอะไรประกอบ</p>
+        <div class="status-row">
+          <span>Last reviewed: <b id="methodUpdated">-</b></span>
+          <span>Source: config/factor files used by this system</span>
+          <span>Status: working methodology</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card"><strong>1. Formula</strong><p>แสดงสูตรที่ระบบใช้คำนวณแต่ละ module แบบอ่านง่ายและอ้างอิงกลับไฟล์โค้ดได้</p></article>
+      <article class="card"><strong>2. Parameters</strong><p>แสดงค่า EF/GWP/BOD/B0/MCF ที่ระบบอ่านจริงจากไฟล์ config ปัจจุบัน</p></article>
+      <article class="card"><strong>3. Audit Trail</strong><p>ระบุหลักฐานที่ต้องเก็บ และแนวทาง snapshot factor เพื่อทวนสอบย้อนหลัง</p></article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Calculation Methods</h3><p>สูตรหลักที่ใช้อยู่ในระบบปัจจุบัน</p></div></div>
+      <div class="formula">
+        <code>Employee Commuting CO2e/year = Round-trip distance (km/day) x Annual work days x Vehicle emission factor (kgCO2e/km) / Carpool share</code>
+        <code>Annual work days = Selected work days per week x 50</code>
+        <code>Septic CH4 kg = Employees x Work days x BOD x B0 x MCF x Correction factor</code>
+        <code>Septic CO2e kg = CH4 kg x GWP CH4</code>
+        <code>Scope 2 Electricity CO2e = Electricity usage (kWh) x Grid emission factor (kgCO2e/kWh)</code>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Septic CH4 Parameters</h3><p>อ่านจาก <b>assets/js/septic-config.js</b></p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parameter</th><th>Value</th><th>Unit</th><th>System Source</th><th>Audit Note</th></tr></thead>
+          <tbody id="septicFactors"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Employee Commuting Vehicle Factors</h3><p>อ่านจาก <b>assets/js/emission-factors.js</b></p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Vehicle / Fuel</th><th>Value</th><th>Unit</th><th>System Source</th><th>Type</th></tr></thead>
+          <tbody id="vehicleFactors"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>GWP / Electricity / Water Factors</h3><p>ค่ากลางอื่นที่ระบบเตรียมไว้สำหรับการขยาย module</p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parameter</th><th>Value</th><th>Unit</th><th>System Source</th><th>Status</th></tr></thead>
+          <tbody id="otherFactors"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Audit Evidence & Traceability</h3><p>สิ่งที่ควรเก็บเพื่อให้ทวนสอบย้อนหลังได้</p></div></div>
+      <div class="trace-grid">
+        <div class="trace-box">
+          <b>ข้อมูลกิจกรรมที่ต้องเก็บ</b>
+          <ul>
+            <li>Commuting: timestamp, employee id/name, branch, department, distance, work days, vehicle, fuel, carpool</li>
+            <li>Septic: month, branch, employee count, work days, BOD, B0, MCF, GWP, correction factor</li>
+            <li>Electricity: billing month, meter/bill reference, kWh, grid EF, source document</li>
+          </ul>
+        </div>
+        <div class="trace-box">
+          <b>Factor snapshot ที่ควรแนบใน record</b>
+          <ul>
+            <li>factor value ที่ใช้ ณ วันที่บันทึก</li>
+            <li>factor version/year/effective date</li>
+            <li>source document หรือ approval reference</li>
+            <li>ผู้อนุมัติ/ผู้ตรวจสอบค่า factor</li>
+          </ul>
+        </div>
+        <div class="trace-box">
+          <b>Revision control</b>
+          <ul>
+            <li>เมื่อเปลี่ยน factor ต้องออก version ใหม่</li>
+            <li>ห้ามแก้ผลคำนวณย้อนหลังโดยไม่บันทึกเหตุผล</li>
+            <li>รายงานเก่าต้องอ้าง factor snapshot เดิม</li>
+          </ul>
+        </div>
+        <div class="trace-box">
+          <b>Current gap</b>
+          <ul>
+            <li>ต้องแนบเอกสารอ้างอิง/อนุมัติสำหรับ factor ที่ใช้จริง</li>
+            <li>ควรเพิ่ม Google Sheet tab: emission_factors, source_documents, audit_log</li>
+            <li>ควรเพิ่ม field factor_version ใน record ทุก module</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">Rama Production Co., Ltd. · ESG Methodology & Audit Trail · Formula and factor register</div>
+  </div>
+
+  <script src="assets/js/emission-factors.js"></script>
+  <script src="assets/js/septic-config.js"></script>
+  <script src="assets/js/methodology.js"></script>
+</body>
+</html>
