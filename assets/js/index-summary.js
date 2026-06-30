@@ -21,6 +21,7 @@
     const septicCo2El = document.getElementById("glanceSepticCo2");
     const employeesEl = document.getElementById("glanceEmployees");
     const coverageEl = document.getElementById("glanceCoverage");
+    const lastUpdatedEl = document.getElementById("glanceLastUpdated");
 
     if (!totalOrgCo2El || !commutingCo2El || !septicCo2El || !employeesEl || !coverageEl) return;
 
@@ -38,7 +39,10 @@
     commutingCo2El.textContent = commuting ? fmt.number(commuting.co2, 0) : "รอข้อมูล";
     septicCo2El.textContent = septic ? fmt.number(septic.co2, 0) : "รอข้อมูล";
     employeesEl.textContent = commuting ? fmt.number(commuting.activeEmployees, 0) : "รอข้อมูล";
-    coverageEl.textContent = `${connectedModules}/3`;
+    coverageEl.textContent = `เชื่อมต่อแล้ว ${connectedModules} จาก 3 หมวด`;
+    if (lastUpdatedEl) {
+      lastUpdatedEl.textContent = `อัปเดตล่าสุด: ${new Date().toLocaleString("th-TH")}`;
+    }
 
     if (results[0].status === "rejected") {
       console.error("Home commuting summary load failed:", results[0].reason);
