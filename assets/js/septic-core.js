@@ -69,15 +69,27 @@
     return found ? found.labelTh : value || '-';
   }
 
+  function getBranchFactor(branch) {
+    const defaults = {
+      treatmentType: 'Septic Tank',
+      mcf: cfg.factors.mcfSepticTank,
+      note: ''
+    };
+    return Object.assign({}, defaults, (cfg.branchFactors && cfg.branchFactors[branch]) || {});
+  }
+
   /** สูตรคำนวณกลางของ Septic Tank */
   function calculateSeptic(record, overrideFactors) {
     const factors = Object.assign({}, cfg.factors, overrideFactors || {});
+    const branchFactor = getBranchFactor(record.branch);
 
     const employeeCount = toNumber(record.employee_count);
     const workDays = toNumber(record.work_days);
     const bod = toNumber(record.bod_kg_per_person_day, factors.bodKgPerPersonDay);
     const b0 = toNumber(record.b0_ch4_kg_per_kg_bod, factors.b0Ch4KgPerKgBod);
-    const mcf = toNumber(record.mcf, factors.mcfSepticTank);
+    const mcf = record.mcf === undefined || record.mcf === null || record.mcf === ''
+      ? toNumber(branchFactor.mcf, factors.mcfSepticTank)
+      : toNumber(record.mcf, branchFactor.mcf);
     const gwp = toNumber(record.gwp_ch4, factors.gwpCh4);
     const correction = toNumber(record.correction_factor, factors.correctionFactor);
 
@@ -90,7 +102,7 @@
       ch4_kg: round(ch4Kg, 4),
       co2e_kg: round(co2eKg, 4),
       co2e_ton: round(co2eKg / 1000, 6),
-      factors_used: { bod, b0, mcf, gwp, correction }
+      factors_used: { bod, b0, mcf, gwp, correction, treatmentType: branchFactor.treatmentType }
     };
   }
 
@@ -144,6 +156,7 @@
     normalizeMonth,
     formatMonthTh,
     getBranchLabel,
+    getBranchFactor,
     calculateSeptic,
     summarize,
     exportCsv

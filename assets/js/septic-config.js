@@ -24,6 +24,19 @@ window.SEPTIC_CONFIG = {
    * CO2e kg = CH4 kg × GWP_CH4
    * แก้สูตร/ค่ากลางได้จาก object นี้ โดยไม่ต้องไล่แก้หน้า HTML
    */
+  branchFactors: {
+    Mahachai: {
+      treatmentType: 'Septic Tank',
+      mcf: 0.5,
+      note: 'Mahachai uses septic tank default MCF.'
+    },
+    Rama9: {
+      treatmentType: 'Aerobic Treatment',
+      mcf: 0.1,
+      note: 'Rama9 uses aerated wastewater treatment; MCF 0.1 is a conservative default.'
+    }
+  },
+
   factors: {
     bodKgPerPersonDay: 0.04, // kg BOD/person/day - ค่า default สำหรับเริ่มต้น ควรปรับตามเอกสารองค์กร/Consultant
     b0Ch4KgPerKgBod: 0.6,   // kg CH4/kg BOD
