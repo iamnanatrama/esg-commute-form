@@ -101,7 +101,7 @@
     }
     .hero-image {
       position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-      transform:scale(1.03); animation: heroFloat 8s ease-in-out infinite;
+      /*transform:scale(1.03); animation: heroFloat 8s ease-in-out infinite;*/
       filter:saturate(1.05) contrast(1.02);
     }
     .hero-stage::before {
@@ -187,6 +187,12 @@
     .glance-value span { display:inline; color:inherit; font-size:inherit; font-weight:inherit; margin-top:0; }
     .glance-value small { font-size:12px; margin-left:4px; }
     .glance-status { font-size:14px; font-weight:950; color:var(--color); white-space:normal; text-align:right; max-width:170px; }
+    .glance-note { margin:0 0 16px; padding:12px 14px; border-radius:16px; background:#f3faf6; border:1px solid rgba(17,132,81,.14); color:#31564a; font-size:13px; font-weight:800; line-height:1.55; }
+    .module-strip { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+    .module-box { padding:14px 16px; border-radius:18px; background:white; border:1px solid var(--border); }
+    .module-box b { display:block; margin-bottom:8px; color:#0b3d2e; font-size:14px; }
+    .module-box span { display:inline-flex; align-items:center; margin:4px 8px 0 0; padding:6px 10px; border-radius:999px; background:#eef8f2; color:#0b6a49; font-size:12px; font-weight:900; }
+    .module-box.pending span { background:#fff5e8; color:#b35b00; }
 
     .why-panel { margin-top:20px; display:grid; grid-template-columns:130px repeat(4, 1fr); gap:16px; align-items:center; }
     .why-title { font-weight:950; color:#0b3d2e; }
@@ -227,6 +233,7 @@
       .quick-grid { grid-template-columns:1fr; }
       .metric-row { grid-template-columns:1fr; }
       .glance-list.expanded { grid-template-columns:1fr; }
+      .module-strip { grid-template-columns:1fr; }
       .scope-formula { flex-direction:column; }
       .why-panel { grid-template-columns:1fr; }
       footer { flex-direction:column; }
@@ -299,22 +306,22 @@
 
       <section class="quick-grid" id="forms" aria-label="Quick Actions">
         <article class="quick-card" style="--tint:#e4f7ec;--btn:linear-gradient(135deg,#168a57,#0d6847)">
-          <div class="quick-icon">📝</div><h3>Collect</h3><p>กรอกข้อมูลง่าย รวดเร็ว และถูกต้อง</p><a href="commuting.html">Go to Forms →</a>
+          <div class="quick-icon">📝</div><h3>กรอกข้อมูลเดินทาง</h3><p>บันทึกข้อมูลการเดินทางมาทำงานเพื่อคำนวณ CO₂e</p><a href="commuting.html">เปิดแบบฟอร์ม →</a>
         </article>
         <article class="quick-card" style="--tint:#e4f3ff;--btn:linear-gradient(135deg,#1687c8,#05639c)">
-          <div class="quick-icon">⚙️</div><h3>Calculate</h3><p>คำนวณคาร์บอนฟุตพริ้นท์อัตโนมัติ</p><a href="calculate.html">Go to Calculate →</a>
+          <div class="quick-icon">⚙️</div><h3>คำนวณคาร์บอน</h3><p>คำนวณ Carbon Footprint จาก activity data</p><a href="calculate.html">เปิดเครื่องคำนวณ →</a>
         </article>
         <article class="quick-card" style="--tint:#f1e8ff;--btn:linear-gradient(135deg,#8b4ae3,#6730c2)">
-          <div class="quick-icon">📊</div><h3>Dashboard</h3><p>ดูผลลัพธ์และติดตามแนวโน้มแบบเรียลไทม์</p><a href="dashboard.html">Go to Dashboard →</a>
+          <div class="quick-icon">📊</div><h3>ดู Dashboard</h3><p>ติดตามผลรวม แนวโน้ม และข้อมูลแยกตามสาขา/แผนก</p><a href="dashboard.html">เปิด Dashboard →</a>
         </article>
         <article class="quick-card" style="--tint:#fff0de;--btn:linear-gradient(135deg,#ff8a00,#f26a00)">
-          <div class="quick-icon">🚻</div><h3>Septic CH4</h3><p>คำนวณ CH4/CO2e จากการใช้ห้องน้ำพนักงานย้อนหลัง 12 เดือน</p><a href="septic.html">Go to Septic CH4 →</a>
+          <div class="quick-icon">🚻</div><h3>บันทึก Septic CH₄</h3><p>คำนวณ CH₄/CO₂e จากระบบ septic tank รายเดือน</p><a href="septic.html">เปิด Septic CH₄ →</a>
         </article>
       </section>
 
       <section class="content-grid" id="scope2">
         <article class="panel scope-panel">
-          <div class="panel-head"><div><h2>Electricity → Scope 2 CO₂e</h2><p>ตั้งแต่ผลิตไฟฟ้า ส่งจ่าย ใช้งาน จนกลายเป็นคาร์บอนทางอ้อม</p></div><span class="small-pill">Live ESG Flow</span></div>
+          <div class="panel-head"><div><h2>Electricity → Scope 2 CO₂e</h2><p>ตั้งแต่ผลิตไฟฟ้า ส่งจ่าย ใช้งาน จนกลายเป็นคาร์บอนทางอ้อม</p></div><span class="small-pill">รอเชื่อมข้อมูล</span></div>
           <!-- =====================================================
                SCOPE 2 SVG ANIMATION
                เป็น SVG/CSS ไม่ใช้รูปเพิ่ม และยังคงแนวคิด Electricity Flow เดิม
@@ -333,14 +340,19 @@
         </article>
 
         <aside class="panel glance-panel">
-          <div class="panel-head"><div><h2>ESG at a Glance</h2></div><span class="small-pill">This Month⌄</span></div>
+          <div class="panel-head"><div><h2>ESG at a Glance</h2><p id="glanceLastUpdated">กำลังโหลดข้อมูลล่าสุด...</p></div><span class="small-pill">This Month⌄</span></div>
+          <div class="glance-note">ตัวเลขนี้รวมเฉพาะหมวดที่เชื่อมข้อมูลจริงแล้ว ได้แก่ การเดินทางพนักงาน และ Septic CH₄ ส่วนไฟฟ้าจะถูกรวมเมื่อมีข้อมูลพร้อม</div>
           <div class="glance-list expanded">
             <div class="glance-item featured" style="--soft:#e4f7ec;--color:#118451"><div class="glance-icon">🌿</div><div><strong>Total Organization CO₂e</strong><span>รวมเฉพาะหมวดที่เชื่อมข้อมูลจริงแล้ว</span></div><div class="glance-value"><span id="glanceTotalOrgCo2">กำลังโหลด</span> <small>kg CO₂e</small></div></div>
             <div class="glance-item" style="--soft:#e4f7ec;--color:#118451"><div class="glance-icon">🚗</div><div><strong>Employee Commuting</strong><span>CO₂e จากการเดินทางพนักงาน</span></div><div class="glance-value"><span id="glanceCommutingCo2">กำลังโหลด</span> <small>kg</small></div></div>
             <div class="glance-item" style="--soft:#fff0df;--color:#ff7a00"><div class="glance-icon">🚻</div><div><strong>Septic CH₄</strong><span>CO₂e จากระบบ septic tank</span></div><div class="glance-value"><span id="glanceSepticCo2">กำลังโหลด</span> <small>kg</small></div></div>
             <div class="glance-item" style="--soft:#e8f2ff;--color:#126fd0"><div class="glance-icon">⚡</div><div><strong>Energy Usage</strong><span>Scope 2 Electricity</span></div><div class="glance-status" id="glanceEnergy">รอข้อมูลการใช้ไฟฟ้า</div></div>
             <div class="glance-item" style="--soft:#fff0df;--color:#ff7a00"><div class="glance-icon">👥</div><div><strong>Active Employees</strong><span>พนักงานที่มีข้อมูลในระบบ</span></div><div class="glance-value"><span id="glanceEmployees">กำลังโหลด</span> <small>คน</small></div></div>
-            <div class="glance-item" style="--soft:#f1e8ff;--color:#8b43dc"><div class="glance-icon">📋</div><div><strong>Data Coverage</strong><span>หมวดข้อมูลที่รวมในยอดองค์กร</span></div><div class="glance-value"><span id="glanceCoverage">0/3</span></div></div>
+            <div class="glance-item" style="--soft:#f1e8ff;--color:#8b43dc"><div class="glance-icon">📋</div><div><strong>Data Coverage</strong><span>หมวดข้อมูลที่รวมในยอดองค์กร</span></div><div class="glance-status" id="glanceCoverage">กำลังตรวจสอบ</div></div>
+          </div>
+          <div class="module-strip">
+            <div class="module-box"><b>ข้อมูลที่รวมแล้ว</b><span>การเดินทาง</span><span>Septic CH₄</span></div>
+            <div class="module-box pending"><b>รอข้อมูล</b><span>การใช้ไฟฟ้า</span></div>
           </div>
         </aside>
       </section>
