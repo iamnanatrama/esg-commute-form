@@ -271,6 +271,30 @@
       margin-bottom: 14px;
     }
 
+    .factor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .factor-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .factor-card strong {
+      display: block;
+      color: #0f172a;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
     .metrics {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -471,6 +495,19 @@
           CO2e kg = CH4 kg x GWP CH4
         </div>
 
+        <div class="factor-grid">
+          <div class="factor-card">
+            <strong>Mahachai</strong>
+            Treatment: Septic Tank<br />
+            MCF: 0.5
+          </div>
+          <div class="factor-card">
+            <strong>Rama 9</strong>
+            Treatment: Aerobic Treatment<br />
+            MCF: 0.1
+          </div>
+        </div>
+
         <div class="metrics">
           <div class="metric"><span>Activity BOD kg</span><strong id="previewBod">0</strong></div>
           <div class="metric"><span>CH4 kg</span><strong id="previewCh4">0</strong></div>
@@ -521,6 +558,17 @@
 
         <div id="reportStatus" class="status"></div>
 
+        <div class="factor-grid">
+          <div class="factor-card">
+            <strong>Mahachai</strong>
+            Septic Tank, MCF 0.5
+          </div>
+          <div class="factor-card">
+            <strong>Rama 9</strong>
+            Aerobic Treatment, MCF 0.1
+          </div>
+        </div>
+
         <div class="metrics">
           <div class="metric"><span>จำนวนรายการ</span><strong id="mRows">0</strong></div>
           <div class="metric"><span>Activity BOD kg</span><strong id="mBod">0</strong></div>
@@ -536,6 +584,7 @@
                 <th>สาขา</th>
                 <th>พนักงานเฉลี่ย/วัน</th>
                 <th>วันทำงาน</th>
+                <th>Treatment</th>
                 <th>MCF</th>
                 <th>CH4 kg</th>
                 <th>CO2e kg</th>
@@ -544,7 +593,7 @@
               </tr>
             </thead>
             <tbody id="reportBody">
-              <tr><td class="empty" colspan="9">กดโหลดรายงานเพื่อดูข้อมูล</td></tr>
+              <tr><td class="empty" colspan="10">กดโหลดรายงานเพื่อดูข้อมูล</td></tr>
             </tbody>
           </table>
         </div>
@@ -752,9 +801,25 @@
       $("mCo2eTon").textContent = formatNumber(summary.co2e_ton, 4);
     }
 
+    function normalizeReportRow(row) {
+      return {
+        ...row,
+        month: core.normalizeMonth(row.month)
+      };
+    }
+
+    function applyReportFilters(rows, filters) {
+      return rows.filter((row) => {
+        if (filters.branch && row.branch !== filters.branch) return false;
+        if (filters.fromMonth && row.month < filters.fromMonth) return false;
+        if (filters.toMonth && row.month > filters.toMonth) return false;
+        return true;
+      });
+    }
+
     function renderReport(rows) {
       if (!rows.length) {
-        $("reportBody").innerHTML = `<tr><td class="empty" colspan="9">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;
+        $("reportBody").innerHTML = `<tr><td class="empty" colspan="10">ไม่พบข้อมูลตามเงื่อนไข</td></tr>`;
         renderMetrics([]);
         return;
       }
@@ -765,6 +830,7 @@
           <td>${escapeHtml(branchLabel(row.branch))}</td>
           <td>${formatNumber(row.employee_count, 2)}</td>
           <td>${formatNumber(row.work_days, 0)}</td>
+          <td>${escapeHtml((core.getBranchFactor(row.branch)).treatmentType)}</td>
           <td>${formatNumber(row.mcf, 2)}</td>
           <td>${formatNumber(row.ch4_kg, 2)}</td>
           <td>${formatNumber(row.co2e_kg, 2)}</td>
@@ -784,10 +850,7 @@
           toMonth: $("toMonth").value
         };
         const result = await window.SepticApi.getRecords(filters);
-        currentReportRows = (result.records || []).map((row) => ({
-          ...row,
-          month: core.normalizeMonth(row.month)
-        }));
+        currentReportRows = applyReportFilters((result.records || []).map(normalizeReportRow), filters);
         renderReport(currentReportRows);
         showStatus("reportStatus", `โหลดข้อมูลสำเร็จ ${currentReportRows.length} รายการ`, "ok");
       } catch (err) {
